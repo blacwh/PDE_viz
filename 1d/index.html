@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="static/css/style.css">
+        <script src="https://d3js.org/d3.v4.js"></script>
+        <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    </head>
+    <body>
+        <div class="block_1">
+            <div class="bblock_11">PDE Selection</div>
+            <div class="bblock_12">
+                <!-- <p id="equ">DATA SOURCE: 3D Advection-Diffusion Equation</p> -->
+                <div id="dsp">
+                    <div id="pdes">
+                        <label for="pde">DATA SOURCE: </label>
+                        <select id="pde" name="pageSelect" onchange="window.location.href=options[selectedIndex].value">
+                            <option value="../3d/index.html">3D Advection-Diffusion Equation</option>
+                            <option value="index.html" selected>1D Advection-Diffusion Equation</option>
+                            <option value="../poi/index.html" >3D Poisson Equation</option>
+                        </select>
+                    </div>
+                    <p>
+                        Point Data Size: <em>20000</em> 
+                        <!-- <br> (discrete point) -->
+                        <br>Data Format: (x,u)
+                        <!-- Method: <u>Derivation</u>        -->
+                        <!-- <button id="show">Candidate library exp result</button> -->
+                    </p>
+                    
+                    <!-- <p>
+                        Method: <u>Derivation</u>       <button id="show">Candidate library exp result</button>
+                    </p> -->
+                    
+                </div>
+                <hr>
+                <div id="myModal" class="modal">
+                    <!-- The Close Button -->
+                    <span class="close">&times;</span>
+        
+                    <!-- Modal Content (The Image) -->
+                    <img class="modal-content" id="img01">
+        
+                    <!-- Modal Caption (Image Text) -->
+                    <div id="caption"></div>
+                </div>
+                
+                <div class="bbblock_124">
+                    <!-- <img id='isopic' src="static\jpg\iso_pic\pic_1\00.png"/> -->
+                    <div id="linec"></div>
+                </div>
+                <div class="bbblock_125">
+                    <div id="scatter">
+                    
+                        Scatter Plot
+                
+                    <input type="button" id="atrplot_b" style="font-size: 15px;" value="plot"/> 
+                </div>
+
+                    <svg id="atr"></svg>
+                    <div id="coe_b">
+                        <button id="coe_be" class="selected">error</button>
+                        <button id="coe_bl">loss</button>
+                    </div>
+                    <div id="coe">
+                        
+                    </div>
+                </div>
+                <!-- <div class="bbblock_126">Isosurface Comparison</br>
+                    <select name="nstr" id="nstr">
+                        <option selected>---Select NN---</option>
+                        <option value="1">top 1</option>
+                        <option value="2">top 2</option>
+                        <option value="3">top 3</option>
+                        <option value="4">top 4</option>
+                        <option value="5">top 5</option>
+                        <option value="6">top 6</option>
+                        <option value="7">top 7</option>
+                        <option value="8">top 8</option>
+                        <option value="9">top 9</option>
+                        <option value="0">top 10</option>
+                    </select>
+                    <input type="range" id="timestep" name="volume"
+                    min="0.00" max="0.99" step="0.01" value="0.00"
+                    oninput="this.nextElementSibling.value=this.value + ' s'"/>
+                    <output for="volume" id="tlabel">0.00 s</output>
+                </div> -->
+
+                </div>
+            </div>
+        </div>
+        <div class="block_2">
+            <div class="bblock_21">NN Model Configuration</div>
+            <div class="bblock_22">
+
+                    <div class="bbblock_222">
+                        <div class="bbbblock_2221">Neurons:  10  →  100</div>
+
+                    </div>
+                    <div class="bbblock_223">
+                      
+                        <div class="bbbblock_2222">Layers: 1  →  10</div>
+
+                    </div>
+                    <div class="bbblock_224">
+                        <div class="bbbblock_2241">Loss=NN error+RRE×</div>
+                        <div class="input_5">10e-6</div>
+
+                    </div>
+                    <!-- <form method="post"> -->
+                    <input type="button" class="button_2" name='button' id="display" value="display"/>
+                    <!-- </form> -->
+                <div class="bbblock_221">
+                    <div class="bbbblock_3221" id="palabel">ParallelPlot</div>
+                    <div class="bbbblock_2210"><div id="paint_id" class="chart-container"></div></div>
+                </div>
+            </div>
+        </div>
+        <div class="block_3">
+            <div class="bblock_31">PDE Derivation</div>
+            <div class="bblock_32">
+                <div class="bbblock_322">
+                    <div class="bbbblock_3221" id="nn">NN structure (by derivation error)</div>
+                    <div class="bbbblock_3220" id="str"></div>
+                    <div class="bbbblock_3222">
+                        <!-- <form method="post"><input type="button" id="s10" class="button_10" name="rank" value="10"/><br></form>
+                        <form method="post"><input type="button" id="s9" class="button_10" name="rank" value="9"/><br></form>
+                        <form method="post"><input type="button" id="s8" class="button_10" name="rank" value="8"/><br></form>
+                        <form method="post"><input type="button" id="s7" class="button_10" name="rank" value="7"/><br></form>
+                        <form method="post"><input type="button" id="s6" class="button_10" name="rank" value="6"/><br></form>
+                        <form method="post"><input type="button" id="s5" class="button_10" name="rank" value="5"/><br></form>
+                        <form method="post"><input type="button" id="s4" class="button_10" name="rank" value="4"/><br></form>
+                        <form method="post"><input type="button" id="s3" class="button_10" name="rank" value="3"/><br></form>
+                        <form method="post"><input type="button" id="s2" class="button_10" name="rank" value="2"/><br></form>
+                        <form method="post"><input type="button" id="s1" class="button_10" name="rank" value="1"/></form> -->
+                        <input type="button" id="s10" class="button_10" name="rank" value="10"/><br>
+                        <input type="button" id="s9" class="button_10" name="rank" value="9"/><br>
+                        <input type="button" id="s8" class="button_10" name="rank" value="8"/><br>
+                        <input type="button" id="s7" class="button_10" name="rank" value="7"/><br>
+                        <input type="button" id="s6" class="button_10" name="rank" value="6"/><br>
+                        <input type="button" id="s5" class="button_10" name="rank" value="5"/><br>
+                        <input type="button" id="s4" class="button_10" name="rank" value="4"/><br>
+                        <input type="button" id="s3" class="button_10" name="rank" value="3"/><br>
+                        <input type="button" id="s2" class="button_10" name="rank" value="2"/><br>
+                        <input type="button" id="s1" class="button_10" name="rank" value="1"/>
+                    </div>
+                </div>
+                <div class="bbblock_323">
+                    <div class="bbbblock_3230" id='line'>
+
+                    </div>
+                    <div class="bbbblock_3231">Error-Loss by Data Size</div>
+                </div>
+                <div class="bbblock_324">
+                    <div class="bbbblock_3241">
+                        Std：f=u_t+u_x-u_xx</div>
+                    <div class="bbbblock_3242" id="exp">R: </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <!-- <script src="/static/data/graph1_data.json"></script> -->
+    
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script> -->
+    <!-- <script src="/static/js/mathjax-config.js" defer></script> -->
+    <!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script> -->
+    <!-- <script src="https://d3js.org/d3.v4.js"></script> -->
+    <!-- <script src="static/js/timebar.js"></script> -->
+    <!-- <script src="/static/js/index.js"></script> -->
+    <script src="static/js/scatter_1.js"></script>
+    <script src="static/js/po.js"></script>
+
+
+    <script src="static/js/structure.js"></script>
+    <script src="static/js/linec.js"></script>
+
+    <script src="static/js/coe.js"></script>
+    <!-- <script>
+        MathJax = {
+            chtml: {
+                matchFontHeight: false
+            },
+            tex: {
+                inlineMath: [['$', '$']]
+            }
+        };
+    </script> -->
+</html>
